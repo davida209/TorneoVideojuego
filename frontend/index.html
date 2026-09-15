@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="cabecera-contenido">
+      <div class="cabecera-titulo">
+        <img src="img/logo.png" alt="Logo del torneo" class="logo">
+        <h1>Torneo de Videojuegos <span class="subtitulo">Universidad Tecnológica de Cancún</span></h1>
+      </div>
+      <nav class="pestanas">
+        <button class="pestana activa" data-seccion="jugadores">Jugadores</button>
+        <button class="pestana" data-seccion="videojuegos">Videojuegos</button>
+        <button class="pestana" data-seccion="puntuaciones">Puntuaciones</button>
+        <button class="pestana" data-seccion="ranking">Ranking</button>
+        <button class="pestana" data-seccion="buscar">Buscar</button>
+        <button class="pestana" data-seccion="estadisticas">Estadísticas</button>
+      </nav>
+    </div>
+  </header>
+<main class="contenido">
+
+    <section id="jugadores" class="seccion activa">
+      <div class="panel formulario">
+        <h2>Registrar jugador</h2>
+        <form id="form-jugador">
+          <label for="jugador-nombre">Nombre</label>
+          <input type="text" id="jugador-nombre" required>
+
+          <label for="jugador-gamertag">Gamertag</label>
+          <input type="text" id="jugador-gamertag" required>
+
+          <label for="jugador-correo">Correo electrónico</label>
+          <input type="email" id="jugador-correo" required>
+
+          <button type="submit">Registrar</button>
+          <p class="mensaje" id="mensaje-jugador"></p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Jugadores registrados</h2>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Gamertag</th>
+                <th>Correo</th>
+                <th>Fecha de registro</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-jugadores"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
