@@ -197,4 +197,32 @@ async function cargarRanking() {
   });
 }
 
+async function cargarEstadisticas() {
+  const respuesta = await fetch(`${URL_API}/estadisticas`);
+  const datos = await respuesta.json();
+
+  document.getElementById('stat-jugadores').textContent = datos.estadisticas.totalJugadores;
+  document.getElementById('stat-videojuegos').textContent = datos.estadisticas.totalVideojuegos;
+  document.getElementById('stat-puntuaciones').textContent = datos.estadisticas.totalPuntuaciones;
+  document.getElementById('stat-promedio').textContent = datos.estadisticas.promedioPuntuacion;
+}
+
+document.getElementById('boton-buscar').addEventListener('click', async () => {
+  const termino = document.getElementById('texto-busqueda').value;
+  const respuesta = await fetch(`${URL_API}/jugadores/buscar?q=${encodeURIComponent(termino)}`);
+  const datos = await respuesta.json();
+  const cuerpo = document.getElementById('tabla-busqueda');
+  cuerpo.innerHTML = '';
+
+  datos.jugadores.forEach((jugador) => {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${jugador.gamertag}</td>
+      <td>${jugador.correo}</td>
+      <td>${new Date(jugador.fecha_registro).toLocaleDateString()}</td>
+    `;
+    cuerpo.appendChild(fila);
+  });
+});
+
 cargarJugadores();

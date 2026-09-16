@@ -28,7 +28,6 @@
 
   <main class="contenido">
 
-    <!-- Sección Jugadores -->
     <section id="jugadores" class="seccion activa">
       <div class="panel formulario">
         <h2>Registrar jugador</h2>
@@ -64,7 +63,6 @@
       </div>
     </section>
 
-    <!-- Sección Videojuegos -->
     <section id="videojuegos" class="seccion">
       <div class="panel formulario">
         <h2>Registrar videojuego</h2>
@@ -96,7 +94,6 @@
       </div>
     </section>
 
-    <!-- Sección Puntuaciones -->
     <section id="puntuaciones" class="seccion">
       <div class="panel formulario">
         <h2>Registrar puntuación</h2>
@@ -133,7 +130,6 @@
       </div>
     </section>
 
-    <!-- Sección Ranking -->
     <section id="ranking" class="seccion">
       <div class="panel">
         <h2>Clasificación general</h2>
@@ -153,8 +149,52 @@
       </div>
     </section>
 
-    <section id="estadisticas" class="seccion"></section>
-    <section id="buscar" class="seccion"></section>
+    <section id="estadisticas" class="seccion">
+      <div class="tarjetas-estadisticas">
+        <div class="tarjeta">
+          <span class="valor" id="stat-jugadores">0</span>
+          <span class="etiqueta">Jugadores</span>
+        </div>
+        <div class="tarjeta">
+          <span class="valor" id="stat-videojuegos">0</span>
+          <span class="etiqueta">Videojuegos</span>
+        </div>
+        <div class="tarjeta">
+          <span class="valor" id="stat-puntuaciones">0</span>
+          <span class="etiqueta">Puntuaciones</span>
+        </div>
+        <div class="tarjeta">
+          <span class="valor" id="stat-promedio">0</span>
+          <span class="etiqueta">Promedio</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="buscar" class="seccion">
+      <div class="panel formulario">
+        <h2>Buscar jugador</h2>
+        <div class="fila-busqueda">
+          <input type="text" id="texto-busqueda" placeholder="Ingrese nombre o gamertag">
+          <button id="boton-buscar">Buscar</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Resultados de búsqueda</h2>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>Gamertag</th>
+                <th>Correo</th>
+                <th>Fecha de registro</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-busqueda"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
   </main>
 
