@@ -20,12 +20,13 @@
         <button class="pestana" data-seccion="videojuegos">Videojuegos</button>
         <button class="pestana" data-seccion="puntuaciones">Puntuaciones</button>
         <button class="pestana" data-seccion="ranking">Ranking</button>
-        <button class="pestana" data-seccion="buscar">Buscar</button>
         <button class="pestana" data-seccion="estadisticas">Estadísticas</button>
+        <button class="pestana" data-seccion="buscar">Buscar</button>
       </nav>
     </div>
   </header>
-<main class="contenido">
+
+  <main class="contenido">
 
     <section id="jugadores" class="seccion activa">
       <div class="panel formulario">
@@ -51,8 +52,6 @@
           <table>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nombre</th>
                 <th>Gamertag</th>
                 <th>Correo</th>
                 <th>Fecha de registro</th>
@@ -63,6 +62,77 @@
         </div>
       </div>
     </section>
+
+    <section id="videojuegos" class="seccion">
+      <div class="panel formulario">
+        <h2>Registrar videojuego</h2>
+        <form id="form-videojuego">
+          <label for="videojuego-nombre">Nombre</label>
+          <input type="text" id="videojuego-nombre" required>
+
+          <label for="videojuego-genero">Género</label>
+          <input type="text" id="videojuego-genero" required>
+
+          <button type="submit">Registrar</button>
+          <p class="mensaje" id="mensaje-videojuego"></p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Videojuegos registrados</h2>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Género</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-videojuegos"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="puntuaciones" class="seccion">
+      <div class="panel formulario">
+        <h2>Registrar puntuación</h2>
+        <form id="form-puntuacion">
+          <label for="puntuacion-jugador">Jugador</label>
+          <select id="puntuacion-jugador" required></select>
+
+          <label for="puntuacion-videojuego">Videojuego</label>
+          <select id="puntuacion-videojuego" required></select>
+
+          <label for="puntuacion-valor">Puntuación</label>
+          <input type="number" id="puntuacion-valor" min="0" required>
+
+          <button type="submit">Guardar</button>
+          <p class="mensaje" id="mensaje-puntuacion"></p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Puntuaciones registradas</h2>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>Jugador</th>
+                <th>Videojuego</th>
+                <th>Puntuación</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-puntuaciones"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="ranking" class="seccion"></section>
+    <section id="buscar" class="seccion"></section>
+    <section id="estadisticas" class="seccion"></section>
 
   </main>
 
