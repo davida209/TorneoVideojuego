@@ -28,6 +28,7 @@
 
   <main class="contenido">
 
+    <!-- Sección Jugadores -->
     <section id="jugadores" class="seccion activa">
       <div class="panel formulario">
         <h2>Registrar jugador</h2>
@@ -63,6 +64,7 @@
       </div>
     </section>
 
+    <!-- Sección Videojuegos -->
     <section id="videojuegos" class="seccion">
       <div class="panel formulario">
         <h2>Registrar videojuego</h2>
@@ -94,6 +96,7 @@
       </div>
     </section>
 
+    <!-- Sección Puntuaciones -->
     <section id="puntuaciones" class="seccion">
       <div class="panel formulario">
         <h2>Registrar puntuación</h2>
@@ -130,9 +133,28 @@
       </div>
     </section>
 
-    <section id="ranking" class="seccion"></section>
-    <section id="buscar" class="seccion"></section>
+    <!-- Sección Ranking -->
+    <section id="ranking" class="seccion">
+      <div class="panel">
+        <h2>Clasificación general</h2>
+        <div class="tabla-contenedor">
+          <table>
+            <thead>
+              <tr>
+                <th>Posición</th>
+                <th>Jugador</th>
+                <th>Videojuego</th>
+                <th>Puntuación</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-ranking"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <section id="estadisticas" class="seccion"></section>
+    <section id="buscar" class="seccion"></section>
 
   </main>
 

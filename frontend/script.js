@@ -179,4 +179,22 @@ document.getElementById('form-puntuacion').addEventListener('submit', async (eve
   }
 });
 
+async function cargarRanking() {
+  const respuesta = await fetch(`${URL_API}/ranking`);
+  const datos = await respuesta.json();
+  const cuerpo = document.getElementById('tabla-ranking');
+  cuerpo.innerHTML = '';
+
+  datos.ranking.forEach((registro, indice) => {
+    const fila = document.createElement('tr');
+    fila.innerHTML = `
+      <td>${indice + 1}</td>
+      <td>${registro.jugador}</td>
+      <td>${registro.videojuego}</td>
+      <td>${registro.puntuacion}</td>
+    `;
+    cuerpo.appendChild(fila);
+  });
+}
+
 cargarJugadores();
