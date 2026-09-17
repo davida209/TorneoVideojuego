@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const jugadoresRoutes = require("./routes/jugadores");
 const videojuegosRoutes = require("./routes/videojuegos");
+const puntuacionesRoutes = require("./routes/puntuaciones");
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use("/jugadores", jugadoresRoutes);
 app.use("/videojuegos", videojuegosRoutes);
+app.use("/puntuaciones", puntuacionesRoutes);
 
 // Conexión con MySQL
 require("./config/database");
@@ -25,4 +27,3 @@ app.get("/", (req, res) => {
 app.listen(3000, () => {
     console.log("Servidor ejecutándose en http://localhost:3000");
 });
-
