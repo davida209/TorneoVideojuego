@@ -1,4 +1,4 @@
-const URL_API = 'http://localhost:4000/api';
+const URL_API = 'http://localhost:3000';
 
 const pestanas = document.querySelectorAll('.pestana');
 const secciones = document.querySelectorAll('.seccion');
@@ -19,6 +19,8 @@ pestanas.forEach((pestana) => {
       cargarSelects();
       cargarPuntuaciones();
     }
+    if (destino === 'ranking') cargarRanking();
+    if (destino === 'estadisticas') cargarEstadisticas();
   });
 });
 
@@ -28,20 +30,25 @@ function mostrarMensaje(elemento, texto, tipo) {
 }
 
 async function cargarJugadores() {
-  const respuesta = await fetch(`${URL_API}/jugadores`);
-  const datos = await respuesta.json();
-  const cuerpo = document.getElementById('tabla-jugadores');
-  cuerpo.innerHTML = '';
+  try {
+    const respuesta = await fetch(`${URL_API}/jugadores`);
+    const datos = await respuesta.json();
+    const cuerpo = document.getElementById('tabla-jugadores');
+    cuerpo.innerHTML = '';
 
-  datos.jugadores.forEach((jugador) => {
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td>${jugador.gamertag}</td>
-      <td>${jugador.correo}</td>
-      <td>${new Date(jugador.fecha_registro).toLocaleDateString()}</td>
-    `;
-    cuerpo.appendChild(fila);
-  });
+    const lista = Array.isArray(datos) ? datos : (datos.jugadores || []);
+    lista.forEach((jugador) => {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${jugador.gamertag}</td>
+        <td>${jugador.correo}</td>
+        <td>${new Date(jugador.fecha_registro).toLocaleDateString()}</td>
+      `;
+      cuerpo.appendChild(fila);
+    });
+  } catch (error) {
+    console.error('Error al cargar jugadores:', error);
+  }
 }
 
 document.getElementById('form-jugador').addEventListener('submit', async (evento) => {
@@ -54,35 +61,45 @@ document.getElementById('form-jugador').addEventListener('submit', async (evento
     correo: document.getElementById('jugador-correo').value
   };
 
-  const respuesta = await fetch(`${URL_API}/jugadores`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(cuerpo)
-  });
-  const datos = await respuesta.json();
+  try {
+    const respuesta = await fetch(`${URL_API}/jugadores`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cuerpo)
+    });
+    const datos = await respuesta.json();
 
-  mostrarMensaje(mensaje, datos.mensaje, datos.ok ? 'exito' : 'error');
-
-  if (datos.ok) {
-    evento.target.reset();
-    cargarJugadores();
+    if (respuesta.ok) {
+      mostrarMensaje(mensaje, datos.mensaje, 'exito');
+      evento.target.reset();
+      cargarJugadores();
+    } else {
+      mostrarMensaje(mensaje, datos.mensaje || 'Error al registrar', 'error');
+    }
+  } catch (error) {
+    mostrarMensaje(mensaje, 'Error de conexion con el servidor', 'error');
   }
 });
 
 async function cargarVideojuegos() {
-  const respuesta = await fetch(`${URL_API}/videojuegos`);
-  const datos = await respuesta.json();
-  const cuerpo = document.getElementById('tabla-videojuegos');
-  cuerpo.innerHTML = '';
+  try {
+    const respuesta = await fetch(`${URL_API}/videojuegos`);
+    const datos = await respuesta.json();
+    const cuerpo = document.getElementById('tabla-videojuegos');
+    cuerpo.innerHTML = '';
 
-  datos.videojuegos.forEach((videojuego) => {
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td>${videojuego.nombre}</td>
-      <td>${videojuego.genero}</td>
-    `;
-    cuerpo.appendChild(fila);
-  });
+    const lista = Array.isArray(datos) ? datos : (datos.videojuegos || []);
+    lista.forEach((videojuego) => {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${videojuego.nombre}</td>
+        <td>${videojuego.genero}</td>
+      `;
+      cuerpo.appendChild(fila);
+    });
+  } catch (error) {
+    console.error('Error al cargar videojuegos:', error);
+  }
 }
 
 document.getElementById('form-videojuego').addEventListener('submit', async (evento) => {
@@ -94,39 +111,51 @@ document.getElementById('form-videojuego').addEventListener('submit', async (eve
     genero: document.getElementById('videojuego-genero').value
   };
 
-  const respuesta = await fetch(`${URL_API}/videojuegos`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(cuerpo)
-  });
-  const datos = await respuesta.json();
+  try {
+    const respuesta = await fetch(`${URL_API}/videojuegos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cuerpo)
+    });
+    const datos = await respuesta.json();
 
-  mostrarMensaje(mensaje, datos.mensaje, datos.ok ? 'exito' : 'error');
-
-  if (datos.ok) {
-    evento.target.reset();
-    cargarVideojuegos();
+    if (respuesta.ok) {
+      mostrarMensaje(mensaje, datos.mensaje, 'exito');
+      evento.target.reset();
+      cargarVideojuegos();
+    } else {
+      mostrarMensaje(mensaje, datos.mensaje || 'Error al registrar', 'error');
+    }
+  } catch (error) {
+    mostrarMensaje(mensaje, 'Error de conexion con el servidor', 'error');
   }
 });
 
 async function cargarSelects() {
-  const [jugadoresRes, videojuegosRes] = await Promise.all([
-    fetch(`${URL_API}/jugadores`),
-    fetch(`${URL_API}/videojuegos`)
-  ]);
-  const jugadoresData = await jugadoresRes.json();
-  const videojuegosData = await videojuegosRes.json();
+  try {
+    const [jugadoresRes, videojuegosRes] = await Promise.all([
+      fetch(`${URL_API}/jugadores`),
+      fetch(`${URL_API}/videojuegos`)
+    ]);
+    const jugadoresData = await jugadoresRes.json();
+    const videojuegosData = await videojuegosRes.json();
 
-  const selectJugador = document.getElementById('puntuacion-jugador');
-  const selectVideojuego = document.getElementById('puntuacion-videojuego');
+    const selectJugador = document.getElementById('puntuacion-jugador');
+    const selectVideojuego = document.getElementById('puntuacion-videojuego');
 
-  selectJugador.innerHTML = jugadoresData.jugadores
-    .map((jugador) => `<option value="${jugador.id}">${jugador.gamertag}</option>`)
-    .join('');
+    const listaJugadores = Array.isArray(jugadoresData) ? jugadoresData : (jugadoresData.jugadores || []);
+    const listaVideojuegos = Array.isArray(videojuegosData) ? videojuegosData : (videojuegosData.videojuegos || []);
 
-  selectVideojuego.innerHTML = videojuegosData.videojuegos
-    .map((videojuego) => `<option value="${videojuego.id}">${videojuego.nombre}</option>`)
-    .join('');
+    selectJugador.innerHTML = listaJugadores
+      .map((jugador) => `<option value="${jugador.id}">${jugador.gamertag}</option>`)
+      .join('');
+
+    selectVideojuego.innerHTML = listaVideojuegos
+      .map((videojuego) => `<option value="${videojuego.id}">${videojuego.nombre}</option>`)
+      .join('');
+  } catch (error) {
+    console.error('Error al cargar selects:', error);
+  }
 }
 
 async function cargarPuntuaciones() {
@@ -137,20 +166,19 @@ async function cargarPuntuaciones() {
     if (!cuerpo) return;
     cuerpo.innerHTML = '';
 
-    if (datos.puntuaciones) {
-      datos.puntuaciones.forEach((puntuacion) => {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-          <td>${puntuacion.jugador}</td>
-          <td>${puntuacion.videojuego}</td>
-          <td>${puntuacion.puntuacion}</td>
-          <td>${new Date(puntuacion.fecha).toLocaleDateString()}</td>
-        `;
-        cuerpo.appendChild(fila);
-      });
-    }
+    const lista = Array.isArray(datos) ? datos : (datos.puntuaciones || []);
+    lista.forEach((puntuacion) => {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${puntuacion.jugador || puntuacion.gamertag}</td>
+        <td>${puntuacion.videojuego}</td>
+        <td>${puntuacion.puntuacion}</td>
+        <td>${new Date(puntuacion.fecha).toLocaleDateString()}</td>
+      `;
+      cuerpo.appendChild(fila);
+    });
   } catch (error) {
-    console.error('No se pudieron cargar las puntuaciones', error);
+    console.error('No se pudieron cargar las puntuaciones:', error);
   }
 }
 
@@ -159,70 +187,93 @@ document.getElementById('form-puntuacion').addEventListener('submit', async (eve
   const mensaje = document.getElementById('mensaje-puntuacion');
 
   const cuerpo = {
-    jugadorId: document.getElementById('puntuacion-jugador').value,
-    videojuegoId: document.getElementById('puntuacion-videojuego').value,
-    puntuacion: document.getElementById('puntuacion-valor').value
+    jugador_id: Number(document.getElementById('puntuacion-jugador').value),
+    videojuego_id: Number(document.getElementById('puntuacion-videojuego').value),
+    puntuacion: Number(document.getElementById('puntuacion-valor').value)
   };
 
-  const respuesta = await fetch(`${URL_API}/puntuaciones`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(cuerpo)
-  });
-  const datos = await respuesta.json();
+  try {
+    const respuesta = await fetch(`${URL_API}/puntuaciones`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cuerpo)
+    });
+    const datos = await respuesta.json();
 
-  mostrarMensaje(mensaje, datos.mensaje, datos.ok ? 'exito' : 'error');
-
-  if (datos.ok) {
-    document.getElementById('puntuacion-valor').value = '';
-    cargarPuntuaciones();
+    if (respuesta.ok) {
+      mostrarMensaje(mensaje, datos.mensaje, 'exito');
+      document.getElementById('puntuacion-valor').value = '';
+      cargarPuntuaciones();
+    } else {
+      mostrarMensaje(mensaje, datos.mensaje || 'Error al guardar', 'error');
+    }
+  } catch (error) {
+    mostrarMensaje(mensaje, 'Error de conexion con el servidor', 'error');
   }
 });
 
 async function cargarRanking() {
-  const respuesta = await fetch(`${URL_API}/ranking`);
-  const datos = await respuesta.json();
-  const cuerpo = document.getElementById('tabla-ranking');
-  cuerpo.innerHTML = '';
+  try {
+    const respuesta = await fetch(`${URL_API}/puntuaciones/ranking`);
+    const datos = await respuesta.json();
+    const cuerpo = document.getElementById('tabla-ranking');
+    cuerpo.innerHTML = '';
 
-  datos.ranking.forEach((registro, indice) => {
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td>${indice + 1}</td>
-      <td>${registro.jugador}</td>
-      <td>${registro.videojuego}</td>
-      <td>${registro.puntuacion}</td>
-    `;
-    cuerpo.appendChild(fila);
-  });
+    const lista = Array.isArray(datos) ? datos : (datos.ranking || []);
+    lista.forEach((registro, indice) => {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${registro.posicion || (indice + 1)}</td>
+        <td>${registro.jugador}</td>
+        <td>${registro.videojuego}</td>
+        <td>${registro.puntuacion}</td>
+      `;
+      cuerpo.appendChild(fila);
+    });
+  } catch (error) {
+    console.error('Error al cargar ranking:', error);
+  }
 }
 
 async function cargarEstadisticas() {
-  const respuesta = await fetch(`${URL_API}/estadisticas`);
-  const datos = await respuesta.json();
+  try {
+    const respuesta = await fetch(`${URL_API}/puntuaciones/estadisticas`);
+    const datos = await respuesta.json();
 
-  document.getElementById('stat-jugadores').textContent = datos.estadisticas.totalJugadores;
-  document.getElementById('stat-videojuegos').textContent = datos.estadisticas.totalVideojuegos;
-  document.getElementById('stat-puntuaciones').textContent = datos.estadisticas.totalPuntuaciones;
-  document.getElementById('stat-promedio').textContent = datos.estadisticas.promedioPuntuacion;
+    const stats = datos.estadisticas || datos;
+    document.getElementById('stat-jugadores').textContent = stats.total_jugadores ?? stats.totalJugadores ?? 0;
+    document.getElementById('stat-videojuegos').textContent = stats.total_videojuegos ?? stats.totalVideojuegos ?? 0;
+    document.getElementById('stat-puntuaciones').textContent = stats.total_puntuaciones ?? stats.totalPuntuaciones ?? 0;
+    const prom = Number(stats.promedio_puntuacion ?? stats.promedioPuntuacion ?? 0);
+    document.getElementById('stat-promedio').textContent = prom.toFixed(1);
+  } catch (error) {
+    console.error('Error al cargar estadisticas:', error);
+  }
 }
 
 document.getElementById('boton-buscar').addEventListener('click', async () => {
-  const termino = document.getElementById('texto-busqueda').value;
-  const respuesta = await fetch(`${URL_API}/jugadores/buscar?q=${encodeURIComponent(termino)}`);
-  const datos = await respuesta.json();
-  const cuerpo = document.getElementById('tabla-busqueda');
-  cuerpo.innerHTML = '';
+  const termino = document.getElementById('texto-busqueda').value.trim();
+  if (!termino) return;
 
-  datos.jugadores.forEach((jugador) => {
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-      <td>${jugador.gamertag}</td>
-      <td>${jugador.correo}</td>
-      <td>${new Date(jugador.fecha_registro).toLocaleDateString()}</td>
-    `;
-    cuerpo.appendChild(fila);
-  });
+  try {
+    const respuesta = await fetch(`${URL_API}/jugadores/buscar?busqueda=${encodeURIComponent(termino)}`);
+    const datos = await respuesta.json();
+    const cuerpo = document.getElementById('tabla-busqueda');
+    cuerpo.innerHTML = '';
+
+    const lista = Array.isArray(datos) ? datos : (datos.jugadores || []);
+    lista.forEach((jugador) => {
+      const fila = document.createElement('tr');
+      fila.innerHTML = `
+        <td>${jugador.gamertag}</td>
+        <td>${jugador.correo}</td>
+        <td>${new Date(jugador.fecha_registro).toLocaleDateString()}</td>
+      `;
+      cuerpo.appendChild(fila);
+    });
+  } catch (error) {
+    console.error('Error al buscar jugador:', error);
+  }
 });
 
 cargarJugadores();
