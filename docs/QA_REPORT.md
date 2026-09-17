@@ -13,7 +13,7 @@
 * **Resultado:** El sistema confirmó el registro con código 201 y el participante apareció en la tabla.
 * **Estado:** PASS
 
-![Registro correcto de jugador](img/caso-01.png)(img/caso-01-1.png)
+![Registro correcto de jugador](img/caso-01.png)
 ![Registro correcto de jugador1](img/caso-01-1.png)
 ---
 
