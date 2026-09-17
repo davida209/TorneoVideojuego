@@ -5,11 +5,15 @@ const router = express.Router();
 const {
     crearPuntuacion,
     obtenerPuntuaciones,
+    obtenerRanking,
+    obtenerEstadisticas,
     actualizarPuntuacion,
     eliminarPuntuacion
 } = require("../controllers/puntuacionesController");
 
 router.post("/", crearPuntuacion);
+
+router.get("/estadisticas", obtenerEstadisticas);
 
 router.get("/", obtenerPuntuaciones);
 

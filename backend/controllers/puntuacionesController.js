@@ -208,11 +208,33 @@ const obtenerRanking = (req, res) => {
         res.status(200).json(resultados);
     });
 };
+// Obtener estadísticas
+const obtenerEstadisticas = (req, res) => {
+    const sql = `
+        SELECT
+            (SELECT COUNT(*) FROM jugadores) AS total_jugadores,
+            (SELECT COUNT(*) FROM videojuegos) AS total_videojuegos,
+            (SELECT COUNT(*) FROM puntuaciones) AS total_puntuaciones,
+            (SELECT COALESCE(AVG(puntuacion), 0) FROM puntuaciones) AS promedio_puntuacion
+    `;
+
+    db.query(sql, (error, resultados) => {
+        if (error) {
+            return res.status(500).json({
+                mensaje: "Error al obtener estadísticas",
+                error: error.message
+            });
+        }
+
+        res.status(200).json(resultados[0]);
+    });
+};
 // Exportar funciones
 module.exports = {
     crearPuntuacion,
     obtenerPuntuaciones,
     obtenerRanking,
+    obtenerEstadisticas,
     actualizarPuntuacion,
     eliminarPuntuacion
 };
