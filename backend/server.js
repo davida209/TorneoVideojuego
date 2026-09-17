@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const jugadoresRoutes = require("./routes/jugadores");
+const videojuegosRoutes = require("./routes/videojuegos");
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/jugadores", jugadoresRoutes);
+app.use("/videojuegos", videojuegosRoutes);
 
 // Conexión con MySQL
 require("./config/database");
