@@ -15,10 +15,10 @@ router.post("/", crearPuntuacion);
 
 router.get("/estadisticas", obtenerEstadisticas);
 
+router.get("/ranking", obtenerRanking);
+
 router.get("/", obtenerPuntuaciones);
 
 router.put("/:id", actualizarPuntuacion);
-
-router.delete("/:id", eliminarPuntuacion);
 
 module.exports = router;
