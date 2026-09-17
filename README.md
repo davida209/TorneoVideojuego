@@ -16,29 +16,11 @@ Proyecto para la gestion de un torneo de videojuegos. Permite dar de alta jugado
 
 \* \*\*Lester David Uicab Gongora\*\* - Lider de proyecto / Control de versiones (Git) / Pruebas (QA)
 
-\* \*\*Jorge Castañon\*\* - Base de datos (MySQL)
+\* \*\*Jorge Castañon\*\* - Base de datos 
 
-\* \*\*Romel Cruz\*\* - Backend (Node.js y Express)
+\* \*\*Romel Cruz\*\* - Backend 
 
-\* \*\*Miriam Canul\*\* - Frontend (HTML, CSS y JavaScript)
-
-
-
-\---
-
-
-
-\## Tecnologias
-
-
-
-\* Frontend: HTML5, CSS3, JavaScript
-
-\* Backend: Node.js, Express
-
-\* Base de Datos: MySQL
-
-\* Repositorio: Git y GitHub
+\* \*\*Miriam Canul\*\* - Frontend 
 
 
 
@@ -52,7 +34,7 @@ Proyecto para la gestion de un torneo de videojuegos. Permite dar de alta jugado
 
 \* `/database`: Contiene el script SQL con las tablas y restricciones.
 
-\* `/backend`: Codigo de la API en Express y conexion con MySQL.
+\* `/backend`: Codigo y conexion con MySQL.
 
 \* `/frontend`: Pantallas del sistema (formularios, buscador y tablas).
 
@@ -86,17 +68,7 @@ Proyecto para la gestion de un torneo de videojuegos. Permite dar de alta jugado
 
 
 
-\## Flujo de Trabajo en Git
+## Documentación y Pruebas (QA)
 
-
-
-\* La rama `main` solo contiene codigo estable probado por el equipo.
-
-\* Cada integrante trabaja en su propia rama (`feature/...`) antes de integrar.
-
-\* No se realizan commits directos sobre `main`.
-
-\* En caso de errores, se crean ramas de tipo `fix/...`.
-
-
-
+* [Ver Reporte de Pruebas Funcionales con Evidencias](docs/QA_REPORT.md)
+* [Ver Bitácora de Defectos e Incidentes (Bug Report)](docs/BUG_REPORT.md)
