@@ -183,10 +183,37 @@ const eliminarPuntuacion = (req, res) => {
 };
 
 
+// Obtener ranking
+const obtenerRanking = (req, res) => {
+    const sql = `
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY p.puntuacion DESC) AS posicion,
+            j.gamertag AS jugador,
+            v.nombre AS videojuego,
+            p.puntuacion
+        FROM puntuaciones p
+        INNER JOIN jugadores j ON p.jugador_id = j.id
+        INNER JOIN videojuegos v ON p.videojuego_id = v.id
+        ORDER BY p.puntuacion DESC
+    `;
+
+    db.query(sql, (error, resultados) => {
+        if (error) {
+            return res.status(500).json({
+                mensaje: "Error al obtener ranking",
+                error: error.message
+            });
+        }
+
+        res.status(200).json(resultados);
+    });
+};
 // Exportar funciones
 module.exports = {
     crearPuntuacion,
     obtenerPuntuaciones,
+    obtenerRanking,
     actualizarPuntuacion,
     eliminarPuntuacion
 };
+
