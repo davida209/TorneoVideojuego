@@ -116,11 +116,44 @@ const eliminarJugador = (req, res) => {
     });
 };
 
+// Buscar jugador por nombre o gamertag
+const buscarJugador = (req, res) => {
+    const { busqueda } = req.query;
 
+    if (!busqueda) {
+        return res.status(400).json({
+            mensaje: "Debes ingresar un nombre o gamertag"
+        });
+    }
+
+    const sql = `
+        SELECT id, nombre, gamertag, correo, fecha_registro
+        FROM jugadores
+        WHERE nombre LIKE ? OR gamertag LIKE ?
+    `;
+
+    const valorBusqueda = `%${busqueda}%`;
+
+    db.query(
+        sql,
+        [valorBusqueda, valorBusqueda],
+        (error, resultados) => {
+            if (error) {
+                return res.status(500).json({
+                    mensaje: "Error al buscar jugador",
+                    error: error.message
+                });
+            }
+
+            res.status(200).json(resultados);
+        }
+    );
+};
 // Exportar funciones
 module.exports = {
     crearJugador,
     obtenerJugadores,
+    buscarJugador,
     actualizarJugador,
     eliminarJugador
 };

@@ -5,11 +5,14 @@ const router = express.Router();
 const {
     crearJugador,
     obtenerJugadores,
+    buscarJugador,
     actualizarJugador,
     eliminarJugador
 } = require("../controllers/jugadoresController");
 
 router.post("/", crearJugador);
+
+router.get("/buscar", buscarJugador);
 
 router.get("/", obtenerJugadores);
 
